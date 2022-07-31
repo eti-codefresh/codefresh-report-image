@@ -44,6 +44,9 @@ inputs:
   CF_WORKFLOW_URL:
     required: false
     description: "external url for the workflow"
+  CF_WORKFLOW_NAME:
+    required: false
+    description: "The name assigned to the workflow that builds the image. When defined, the name is displayed in the Codefresh platform."
   CF_LOGS_URL:
     required: false
     description: "external url for the logs"
@@ -123,6 +126,7 @@ runs:
         CF_REGISTRY_DOMAIN: "${{ inputs.CF_REGISTRY_DOMAIN }}"
         CF_INSECURE: "${{ inputs.CF_INSECURE }}"
         CF_WORKFLOW_URL: "${{ inputs.CF_WORKFLOW_URL }}"
+        CF_WORKFLOW_NAME: "${{ inputs.CF_WORKFLOW_NAME }}"
         CF_LOGS_URL: "${{ inputs.CF_LOGS_URL }}"
 
         CF_ENRICHERS: "${{ inputs.CF_ENRICHERS }}"
