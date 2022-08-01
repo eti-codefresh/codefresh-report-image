@@ -10,7 +10,7 @@ inputs:
     required: true
   CF_HOST:
     description: "Codefresh runtime exposed in cluster address: https://your.clusters.ci-cd.com/app-proxy"
-    required: true
+    required: false
   CF_RUNTIME_NAME:
     description: "Codefresh runtime name"
     required: true
@@ -160,8 +160,8 @@ runs:
         GITHUB_REPOSITORY_OWNER: "${{ github.repository_owner }}"
         GITHUB_COMMIT_MESSAGE: "${{ github.event.head_commit.message }}"
         GITHUB_PAYLOAD_MESSAGE: "${{ github.event.client_payload.message }}"
-        GITHUB_WORKFLOW_URL: "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
-        GITHUB_WORKFLOW_NAME: "${GITHUB_REPOSITORY_OWNER}/${GITHUB_REPOSITORY}/${GITHUB_RUN_ID}"
+        GITHUB_WORKFLOW_NAME: "${{ github.repository }}/${{ github.run_id }}"
+        GITHUB_WORKFLOW_URL: "${{ github.server_url	}}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
 
       run: |
