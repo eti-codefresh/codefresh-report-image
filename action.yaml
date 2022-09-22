@@ -177,4 +177,4 @@ runs:
         
         env | cut -f 1 -d "=" | grep -E "^CF_"  > cf_env
         echo "Provided env vars: $(cat cf_env|xargs echo)"
-        docker run --env-file=cf_env "quay.io/codefresh/codefresh-report-image:support_host_url"
+        docker run --env-file=cf_env "quay.io/codefresh/codefresh-report-image-dev:support_host_url"
