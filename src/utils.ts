@@ -17,8 +17,10 @@ export namespace Utils {
             host = payload['CF_HOST']
             delete payload['CF_HOST']
         } else {
-            host = await Utils.getRuntimeIngressHost(runtimeName, headers)
+            const platformHost = payload['CF_PLATFORM_URL']
+            host = await Utils.getRuntimeIngressHost(runtimeName, headers, platformHost)
             delete payload['CF_RUNTIME_NAME']
+            delete payload['CF_PLATFORM_URL']
         }
         delete payload['CF_API_KEY']
         const qs = Object.entries(payload).map(kv => `${esc(kv[0])}=${esc(kv[1] || '')}`).join('&')
@@ -55,6 +57,27 @@ export namespace Utils {
             return JSON.parse(str)
         } catch {
             return str
+        }
+    }
+
+    export type Timer = {
+        timeoutTime: number,
+        restart: (timeoutMs?: number) => void,
+        stop: () => void,
+    }
+
+    export function createHeartbeatTimer(cb: () => void, timeoutTime: number): Timer {
+        let timeout: NodeJS.Timeout = setTimeout(cb, timeoutTime)
+
+        return {
+            timeoutTime,
+            restart(_timeoutMs?: number) {
+                this.stop()
+                timeout = setTimeout(cb, _timeoutMs || this.timeoutTime)
+            },
+            stop() {
+                clearTimeout(timeout)
+            }
         }
     }
 }
